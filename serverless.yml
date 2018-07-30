@@ -1,0 +1,61 @@
+service: system-status-pooler
+
+custom:
+  slackTopicName: SlackMessages
+  slackTopicArn:
+    Fn::Join:
+      - ""
+      - - "arn:aws:sns:"
+        - Ref: "AWS::Region"
+        - ":"
+        - Ref: "AWS::AccountId"
+        - ":SlackMessages"
+  awsAccountId:
+    Ref: AWS::AccountId
+
+provider:
+  name: aws
+  runtime: java8
+  region: eu-west-1
+  stage: dev
+  memorySize: 512
+  versionFunctions: false
+  timeout: 10
+  logRetentionInDays: 2
+  endpointType: regional
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - SNS:Publish
+      Resource:
+        - Ref: "SlackSNSTopic"
+
+package:
+  individually: true
+  artifact: artifacts/hat-she-functions.jar
+
+functions:
+
+  slackNotification:
+    handler: org.hatdex.slack.PostMessageHandler::handle
+    environment:
+      SLACK_API_KEY: ${env:SLACK_API_KEY}
+      SLACK_CHANNEL: ${env:SLACK_CHANNEL}
+    events:
+      - sns:
+          arn:
+            Fn::Join:
+              - ""
+              - - "arn:aws:sns:"
+                - Ref: "AWS::Region"
+                - ":"
+                - Ref: "AWS::AccountId"
+                - ":SlackMessages"
+          topicName: SlackMessages
+
+resources:
+  Resources:
+    SlackSNSTopic:
+      Type: AWS::SNS::Topic
+      Properties: 
+        TopicName: ${self:custom.slackTopicName}
