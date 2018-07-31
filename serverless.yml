@@ -1,15 +1,6 @@
-service: system-status-pooler
+service: smart-hat-engine
 
 custom:
-  slackTopicName: SlackMessages
-  slackTopicArn:
-    Fn::Join:
-      - ""
-      - - "arn:aws:sns:"
-        - Ref: "AWS::Region"
-        - ":"
-        - Ref: "AWS::AccountId"
-        - ":SlackMessages"
   awsAccountId:
     Ref: AWS::AccountId
 
@@ -18,17 +9,11 @@ provider:
   runtime: java8
   region: eu-west-1
   stage: dev
-  memorySize: 512
+  memorySize: 256
   versionFunctions: false
   timeout: 10
-  logRetentionInDays: 2
+  logRetentionInDays: 1
   endpointType: regional
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - SNS:Publish
-      Resource:
-        - Ref: "SlackSNSTopic"
 
 package:
   individually: true
@@ -36,26 +21,24 @@ package:
 
 functions:
 
-  slackNotification:
-    handler: org.hatdex.slack.PostMessageHandler::handle
-    environment:
-      SLACK_API_KEY: ${env:SLACK_API_KEY}
-      SLACK_CHANNEL: ${env:SLACK_CHANNEL}
+  dataFeedCounter:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
     events:
-      - sns:
-          arn:
-            Fn::Join:
-              - ""
-              - - "arn:aws:sns:"
-                - Ref: "AWS::Region"
-                - ":"
-                - Ref: "AWS::AccountId"
-                - ":SlackMessages"
-          topicName: SlackMessages
+      - http:
+          path: data-feed-counter
+          method: post
 
-resources:
-  Resources:
-    SlackSNSTopic:
-      Type: AWS::SNS::Topic
-      Properties: 
-        TopicName: ${self:custom.slackTopicName}
+  dataFeedCounterConfiguration:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
+    events:
+      - http:
+          path: data-feed-counter/configuration
+          method: get
+
+  dataFeedCounterBundle:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
+    events:
+      - http:
+          path: data-feed-counter/data-bundle
+          method: get
+

@@ -9,9 +9,9 @@ set -e
 
 # Build the scala package
 echo "Build Scala package"
-cd status-monitor
+cd hat-she-functions
 sbt assembly
 cd -
-cp status-monitor/target/scala-2.12/status-monitor.jar artifacts/status-monitor.jar
+cp hat-she-functions/target/scala-2.12/hat-she-functions.jar artifacts/hat-she-functions.jar
 
 serverless deploy
