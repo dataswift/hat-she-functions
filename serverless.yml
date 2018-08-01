@@ -25,20 +25,20 @@ functions:
     handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
     events:
       - http:
-          path: data-feed-counter
+          path: data-feed-counter/1.0.0
           method: post
 
   dataFeedCounterConfiguration:
     handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
     events:
       - http:
-          path: data-feed-counter/configuration
+          path: data-feed-counter/1.0.0/configuration
           method: get
 
   dataFeedCounterBundle:
     handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
     events:
       - http:
-          path: data-feed-counter/data-bundle
+          path: data-feed-counter/1.0.0/data-bundle
           method: get
 
