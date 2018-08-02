@@ -41,6 +41,7 @@ trait DataFeedDirectMapperContext extends Scope {
       |            "id": "911521736813875200",
       |            "lang": "en",
       |            "text": "RT @jupenur: Oh shit Adobe https://t.co/7rDL3LWVVz",
+      |            "message": "RT @jupenur: Oh shit Adobe https://t.co/7rDL3LWVVz",
       |            "user": {
       |                "id": "82142104",
       |                "lang": "en",
@@ -104,6 +105,7 @@ trait DataFeedDirectMapperContext extends Scope {
       |            "id": "911672713936343040",
       |            "lang": "en",
       |            "text": "@drgeep Don't forget transitive trust is hard in reality. E.g in international transfers between thousands of rando… https://t.co/uTQPsoKfrD",
+      |            "message": "@drgeep Don't forget transitive trust is hard in reality. E.g in international transfers between thousands of rando… https://t.co/uTQPsoKfrD",
       |            "user": {
       |                "id": "82142104",
       |                "lang": "en",
@@ -142,6 +144,7 @@ trait DataFeedDirectMapperContext extends Scope {
       |            "geo": null,
       |            "lang": "en",
       |            "text": "Tweet from Portugal.",
+      |            "message": "Tweet from Portugal.",
       |            "user": {
       |                "id": 819125281931792384,
       |                "url": null,
@@ -1202,4 +1205,29 @@ trait DataFeedDirectMapperContext extends Scope {
     """.stripMargin
 
   val exampleMultipleInstagramImages: EndpointData = Json.parse(instagramMultipleImagePost).as[EndpointData]
+
+  val exampleNotable: EndpointData = Json.parse(
+    """
+      | {
+      |        "endpoint": "rumpel/notablesv1",
+      |        "recordId": "dad6ecd5-3a6b-4da9-94a8-3ae291b7818f",
+      |        "data": {
+      |            "kind": "note",
+      |            "shared": true,
+      |            "message": "Things move fast in California. Still 18 months before its new data protection regulation is set to be enforced, you could argue its effects are being felt. \n\n The law, passed in June, is \"not as expansive as Europe's\" and was imposed by law makers (some say) in response to a stronger initiative that had been proposed for the ballot. But this week's news is still one of steps towards greater individual data control. Facebook, Google, Microsoft, and Twitter announced the collaborative \"Data Transfer Project\" on the weekend, an initiative towards the free exchange of personal data between their various services.\n\nThe project, which is laudable, will work towards a common framework (built on open-source code) that \"can connect any two online service providers\" so that we can have seamless, direct, user-initiated portability of data.\n\nIt's laudable as a move towards personal empowerment and as one step in pulling down some of the walled gardens. It is also a step taken under the umbrella of control these organisations exert over us as citizens of course, but I prefer steps in the right direction to boots on the chest every time.\n\nUnder the premises of the most lofty, laudatory values of law, economics, science, computer science (as disciplines), we should have power such as this by a default right. Technological advance hasn't yet led us to dystopia (well...arguably 😒), so I deny that there's reason to fear it will next year or next generation. But I'm pretty sure the trend towards it being good for the individuals as citizens of the digital world isn't granted, it's taken.\n\nInch by inch, innovation by innovation, citizens are gaining in power - power in education, power in economy, and power in production. It is nice when this power is given to us by benevolent dictat, but I don't think we'll be satisfied until it is de facto.\n\nYou are a goldfish in a fishbowl (she says, lovingly). A bigger bowl or some better plants are lovely, but better to swim in the ocean, no?",
+      |            "authorv1": {
+      |                "name": "",
+      |                "phata": "testing.hubat.net",
+      |                "nickname": "",
+      |                "photo_url": ""
+      |            },
+      |            "shared_on": [
+      |                "facebook"
+      |            ],
+      |            "created_time": "2018-07-16T13:20:20Z",
+      |            "updated_time": "2018-07-16T13:20:20Z",
+      |            "currently_shared": true
+      |        }
+      |    }
+    """.stripMargin).as[EndpointData]
 }

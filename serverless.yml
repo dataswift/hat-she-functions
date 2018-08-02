@@ -42,3 +42,24 @@ functions:
           path: data-feed-counter/1.0.0/data-bundle
           method: get
 
+  sentimentTracker:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+    events:
+      - http:
+          path: sentiment-tracker/1.0.0
+          method: post
+
+  sentimentTrackerConfiguration:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+    events:
+      - http:
+          path: sentiment-tracker/1.0.0/configuration
+          method: get
+
+  sentimentTrackerBundle:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+    events:
+      - http:
+          path: sentiment-tracker/1.0.0/data-bundle
+          method: get
+

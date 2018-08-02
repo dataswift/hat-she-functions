@@ -25,6 +25,8 @@ libraryDependencies ++= Seq(
     ExclusionRule(organization = "org.specs2"),
     ExclusionRule(organization = "org.seleniumhq.selenium"),
     ExclusionRule(organization = "com.typesafe.play", name="play-akka-http-server")),
+  "edu.stanford.nlp" % "stanford-corenlp" % "3.9.1",
+  "edu.stanford.nlp" % "stanford-corenlp" % "3.9.1" classifier "models"
 )
 
 assemblyMergeStrategy in assembly := {
