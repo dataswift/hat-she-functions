@@ -19,9 +19,10 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.5.9",
   "com.typesafe.play" %% "play-ahc-ws-standalone" % "1.1.3",
   "com.typesafe.play" %% "play-ws-standalone-json" % "1.1.3",
-  "com.amazonaws" % "aws-java-sdk-sns" % "1.11.264",
   "org.hatdex" %% "hat-client-scala-play" % "2.6.2-SNAPSHOT" excludeAll(
     ExclusionRule("commons-logging", "commons-logging"),
+    ExclusionRule(organization = "com.typesafe", name="akka-stream"),
+    ExclusionRule(organization = "com.typesafe", name="akka-http"),
     ExclusionRule(organization = "org.specs2"),
     ExclusionRule(organization = "org.seleniumhq.selenium"),
     ExclusionRule(organization = "com.typesafe.play", name="play-akka-http-server")),
@@ -31,6 +32,21 @@ libraryDependencies ++= Seq(
 
 assemblyMergeStrategy in assembly := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case PathList("com", "amazonaws", "services", xs @ _*) if !xs.contains("lambda") => MergeStrategy.discard
+  // remove Stanford NLP Demo
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("demo") => MergeStrategy.discard
+  // remove Stanford NLP unused models
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("coref") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("dcoref") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("ner") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("truecase") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("kbp") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("naturalli") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("supervised_relation_extractor") => MergeStrategy.discard
+  case PathList("edu", "stanford", "nlp", xs @ _*) if xs.contains("quoteattribution") => MergeStrategy.discard
+  // remove test dependencies
+  case PathList("org", "specs2", xs @ _*) => MergeStrategy.discard
+  case PathList("org", "seleniumhq", xs @ _*) => MergeStrategy.discard
   case x => MergeStrategy.first
 }
 

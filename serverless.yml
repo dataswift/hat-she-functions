@@ -44,6 +44,8 @@ functions:
 
   sentimentTracker:
     handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+    memorySize: 1024
+    timeout: 120
     events:
       - http:
           path: sentiment-tracker/1.0.0
@@ -51,6 +53,7 @@ functions:
 
   sentimentTrackerConfiguration:
     handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+    memorySize: 1024
     events:
       - http:
           path: sentiment-tracker/1.0.0/configuration
@@ -58,6 +61,7 @@ functions:
 
   sentimentTrackerBundle:
     handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+    memorySize: 1024
     events:
       - http:
           path: sentiment-tracker/1.0.0/data-bundle
