@@ -85,7 +85,7 @@ class SentimentTracker {
   val endpoint = "insights/emotions"
 
   val configuration: FunctionConfiguration = FunctionConfiguration(
-    "data-feed-counter",
+    "sentiment-tracker",
     FunctionInfo(
       "1.0.0",
       new DateTime("2018-01-01T12:00:00+00:00"),
@@ -130,15 +130,15 @@ class SentimentTracker {
     EndpointDataBundle("data-feed-counter",
       Map(
         "facebook/feed" → PropertyQuery(List(
-          EndpointQuery("facebook/feed", Some(Json.toJson(Map("message" → "message"))),
+          EndpointQuery("facebook/feed", Some(Json.toJson(Map("message" → "message", "timestamp" → "created_time"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created_time", None, f))), None)),
           Some("created_time"), Some("descending"), Some(20)),
         "twitter/tweets" → PropertyQuery(List(
-          EndpointQuery("twitter/tweets", Some(Json.toJson(Map("message" → "text"))),
+          EndpointQuery("twitter/tweets", Some(Json.toJson(Map("message" → "text", "timestamp" → "lastUpdated"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("lastUpdated", None, f))), None)),
           Some("lastUpdated"), Some("descending"), Some(20)),
         "notables/feed" → PropertyQuery(List(
-          EndpointQuery("rumpel/notablesv1", Some(Json.toJson(Map("message" → "message"))),
+          EndpointQuery("rumpel/notablesv1", Some(Json.toJson(Map("message" → "message", "timestamp" → "created_time"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created_time", None, f))), None)),
           Some("created_time"), Some("descending"), Some(20))
       ))
@@ -149,9 +149,9 @@ class SentimentTracker {
       .collect {
         case (mappingEndpoint, records) ⇒
           val endpointSentiments = records.flatMap { dataRecord ⇒
-            (dataRecord.data \ "message").asOpt[String].map(dataRecord → _)
+            Try((dataRecord, (dataRecord.data \ "message").as[String], (dataRecord.data \ "timestamp").as[DateTime])).toOption
           } map {
-            case (dataRecord, text) ⇒
+            case (dataRecord, text, timestamp) ⇒
               val annotation: Annotation = new Annotation(text)
               tokenizer.annotate(annotation)
 
@@ -191,9 +191,9 @@ class SentimentTracker {
                 "Very Positive"
               }
 
-
               Response(namespace, endpoint,
                 Seq(Json.toJson(Map(
+                  "timestamp" → timestamp.toString,
                   "source" → mappingEndpoint,
                   "text" → itemSentiment._1,
                   "sentiment" → sentimentToString))),
