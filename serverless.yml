@@ -14,6 +14,12 @@ provider:
   timeout: 10
   logRetentionInDays: 1
   endpointType: regional
+  vpc:
+    securityGroupIds:
+      - sg-237cde5a
+    subnetIds:
+      - subnet-006905369927e2240
+      - subnet-0d535a2f4a04a81ce
 
 package:
   individually: true
@@ -62,6 +68,14 @@ functions:
       - http:
           path: sentiment-tracker/1.0.0
           method: post
+
+  sentimentTrackerHeavyDuty:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerHeavyDutyHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
+    memorySize: 1024
+    timeout: 300
 
   sentimentTrackerConfiguration:
     handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle

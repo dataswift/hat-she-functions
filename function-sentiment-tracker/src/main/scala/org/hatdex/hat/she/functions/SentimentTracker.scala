@@ -31,6 +31,16 @@ class SentimentTrackerHandler extends LambdaProxyHandler[SHEModels.SHERequest, S
 
 }
 
+class SentimentTrackerHeavyDutyHandler extends LambdaHandler[SHEModels.SHERequest, Seq[Response]] with JsonBodyReadables with DefaultBodyWritables {
+  private val counter = new SentimentTracker()
+
+  override def handle(request: SHEModels.SHERequest, context: Context): Try[Seq[Response]] = {
+    SentimentTrackerClient.logger.info(s"Handling request $request with context $context")
+    Try(counter.execute(SentimentTrackerClient.tokenizer, SentimentTrackerClient.pipeline)(request.functionConfiguration, request.request))
+  }
+
+}
+
 class SentimentTrackerConfigurationHandler extends LambdaProxyHandler[AnyContent, FunctionConfiguration] with JsonBodyReadables with DefaultBodyWritables {
   private val counter = new SentimentTracker()
 
