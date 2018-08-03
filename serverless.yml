@@ -17,12 +17,15 @@ provider:
 
 package:
   individually: true
-  artifact: artifacts/hat-she-functions.jar
+  artifact: artifacts/data-feed-counter.jar
 
 functions:
 
   dataFeedCounter:
     handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
     events:
       - http:
           path: data-feed-counter/1.0.0
@@ -30,6 +33,9 @@ functions:
 
   dataFeedCounterConfiguration:
     handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
     events:
       - http:
           path: data-feed-counter/1.0.0/configuration
@@ -37,6 +43,9 @@ functions:
 
   dataFeedCounterBundle:
     handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
     events:
       - http:
           path: data-feed-counter/1.0.0/data-bundle
@@ -44,6 +53,9 @@ functions:
 
   sentimentTracker:
     handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
     memorySize: 1024
     timeout: 120
     events:
@@ -53,6 +65,9 @@ functions:
 
   sentimentTrackerConfiguration:
     handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
     memorySize: 1024
     events:
       - http:
@@ -61,6 +76,9 @@ functions:
 
   sentimentTrackerBundle:
     handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
     memorySize: 1024
     events:
       - http:
