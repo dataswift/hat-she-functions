@@ -2,68 +2,22 @@ package org.hatdex.hat.she.functions
 
 import java.util.{Collections, Properties}
 
-import com.amazonaws.services.lambda.runtime.Context
 import edu.stanford.nlp.ling.CoreAnnotations
+import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations
 import edu.stanford.nlp.pipeline._
 import edu.stanford.nlp.sentiment.SentimentCoreAnnotations
-import edu.stanford.nlp.neural.rnn.RNNCoreAnnotations
 import org.hatdex.hat.api.models._
 import org.hatdex.hat.api.models.applications.{ApplicationDeveloper, ApplicationGraphics}
 import org.hatdex.hat.she.functions.SHEModels._
-import org.hatdex.serverless.aws.proxy.{ProxyRequest, ProxyResponse}
-import org.hatdex.serverless.aws.{AnyContent, AnyContentReads, LambdaHandler, LambdaProxyHandler}
+import org.hatdex.serverless.aws.AnyContentReads
 import org.joda.time.format.{DateTimeFormatter, ISODateTimeFormat}
 import org.joda.time.{DateTime, Period}
 import org.slf4j.{Logger, LoggerFactory}
 import play.api.libs.json.Json
-import play.api.libs.ws.{DefaultBodyWritables, JsonBodyReadables}
 
 import scala.collection.JavaConverters._
 import scala.util.Try
 
-class SentimentTrackerHandler extends LambdaProxyHandler[SHEModels.SHERequest, Seq[Response]] with JsonBodyReadables with DefaultBodyWritables {
-  private val counter = new SentimentTracker()
-
-  override def handle(request: SHEModels.SHERequest, context: Context): Try[Seq[Response]] = {
-    SentimentTrackerClient.logger.info(s"Handling request $request with context $context")
-    Try(counter.execute(SentimentTrackerClient.tokenizer, SentimentTrackerClient.pipeline)(request.functionConfiguration, request.request))
-  }
-
-}
-
-class SentimentTrackerHeavyDutyHandler extends LambdaHandler[SHEModels.SHERequest, Seq[Response]] with JsonBodyReadables with DefaultBodyWritables {
-  private val counter = new SentimentTracker()
-
-  override def handle(request: SHEModels.SHERequest, context: Context): Try[Seq[Response]] = {
-    SentimentTrackerClient.logger.info(s"Handling request $request with context $context")
-    Try(counter.execute(SentimentTrackerClient.tokenizer, SentimentTrackerClient.pipeline)(request.functionConfiguration, request.request))
-  }
-
-}
-
-class SentimentTrackerConfigurationHandler extends LambdaProxyHandler[AnyContent, FunctionConfiguration] with JsonBodyReadables with DefaultBodyWritables {
-  private val counter = new SentimentTracker()
-
-  override def handle(context: Context): Try[FunctionConfiguration] = {
-    SentimentTrackerClient.logger.info(s"Handling request with context $context")
-    Try(counter.configuration)
-  }
-
-}
-
-class SentimentTrackerBundleHandler extends LambdaHandler[ProxyRequest[AnyContent], ProxyResponse[EndpointDataBundle]] with JsonBodyReadables with DefaultBodyWritables {
-  private val counter = new SentimentTracker()
-
-  override def handle(request: ProxyRequest[AnyContent], context: Context): Try[ProxyResponse[EndpointDataBundle]] = {
-    SentimentTrackerClient.logger.info(s"Handling request with context $context")
-    val result = Try(counter.bundleFilterByDate(
-      request.queryStringParameters.flatMap(_.get("fromDate").map(r ⇒ DateTime.parse(r))),
-      request.queryStringParameters.flatMap(_.get("untilDate").map(r ⇒ DateTime.parse(r)))))
-
-    Try(ProxyResponse(result))
-  }
-
-}
 
 object SentimentTrackerClient {
   lazy val logger: Logger = LoggerFactory.getLogger(this.getClass)
@@ -87,6 +41,7 @@ object SentimentTrackerClient {
     (tokenizer, pipeline)
   }
 }
+
 
 class SentimentTracker {
   val logger: Logger = LoggerFactory.getLogger(this.getClass)
@@ -215,6 +170,4 @@ class SentimentTracker {
 
     messages.flatten.toSeq
   }
-
 }
-

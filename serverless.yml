@@ -27,17 +27,18 @@ package:
 
 functions:
 
-  dataFeedCounter:
+  api-data-feed-counter:
     handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
+    timeout: 120
     events:
       - http:
           path: data-feed-counter/1.0.0
           method: post
 
-  dataFeedCounterConfiguration:
+  api-data-feed-counter-configuration:
     handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
     package:
       individually: true
@@ -47,7 +48,7 @@ functions:
           path: data-feed-counter/1.0.0/configuration
           method: get
 
-  dataFeedCounterBundle:
+  api-data-feed-counter-bundle:
     handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
     package:
       individually: true
@@ -57,8 +58,27 @@ functions:
           path: data-feed-counter/1.0.0/data-bundle
           method: get
 
-  sentimentTracker:
-    handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+  data-feed-counter:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
+    timeout: 120
+
+  data-feed-counter-configuration:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
+
+  data-feed-counter-bundle:
+    handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/data-feed-counter.jar
+
+  api-sentiment-tracker:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -69,16 +89,8 @@ functions:
           path: sentiment-tracker/1.0.0
           method: post
 
-  sentimentTrackerHeavyDuty:
-    handler: org.hatdex.hat.she.functions.SentimentTrackerHeavyDutyHandler::handle
-    package:
-      individually: true
-      artifact: artifacts/sentiment-tracker.jar
-    memorySize: 1024
-    timeout: 300
-
-  sentimentTrackerConfiguration:
-    handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+  api-sentiment-tracker-configuration:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -88,8 +100,8 @@ functions:
           path: sentiment-tracker/1.0.0/configuration
           method: get
 
-  sentimentTrackerBundle:
-    handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+  api-sentiment-tracker-bundle:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerBundleProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -99,3 +111,24 @@ functions:
           path: sentiment-tracker/1.0.0/data-bundle
           method: get
 
+  sentiment-tracker:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
+    memorySize: 1024
+    timeout: 300
+
+  sentiment-tracker-configuration:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
+    memorySize: 1024
+
+  sentiment-tracker-bundle:
+    handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+    package:
+      individually: true
+      artifact: artifacts/sentiment-tracker.jar
+    memorySize: 1024
