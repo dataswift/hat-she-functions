@@ -67,7 +67,7 @@ class SentimentTracker {
         Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/logo.png?raw=true", None, None),
         Seq(Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot1.jpg?raw=true", None, None), Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot2.jpg?raw=true", None, None))),
       Some("/she/feed/she/sentiments")),
-    ApplicationDeveloper("hatdex", "HATDeX", "https://hatdex.org", Some("United Kingdom"), None),
+    ApplicationDeveloper("hatdex", "HAT Data Exchange Ltd", "https://hatdex.org", Some("United Kingdom"), None),
     FunctionTrigger.TriggerPeriodic(Period.parse("P1W")),
     dataBundle = bundleFilterByDate(None, None),
     status = FunctionStatus(available = true, enabled = false, lastExecution = None, executionStarted = None))
