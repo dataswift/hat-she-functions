@@ -64,8 +64,8 @@ class SentimentTracker {
       "contact@hatdex.org",
       ApplicationGraphics(
         Drawable(None, "", None, None),
-        Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Image%20from%20iOS%20(5)%20(1).png?raw=true", None, None),
-        Seq(Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot%201.jpg?raw=true", None, None), Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot%202.jpg?raw=true", None, None))),
+        Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/logo.png?raw=true", None, None),
+        Seq(Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot1.jpg?raw=true", None, None), Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot2.jpg?raw=true", None, None))),
       Some("/she/feed/she/sentiments")),
     ApplicationDeveloper("hatdex", "HATDeX", "https://hatdex.org", Some("United Kingdom"), None),
     FunctionTrigger.TriggerPeriodic(Period.parse("P1W")),
