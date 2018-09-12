@@ -11,7 +11,7 @@ import org.hatdex.hat.api.models.applications.{ApplicationDeveloper, Application
 import org.hatdex.hat.she.functions.SHEModels._
 import org.hatdex.serverless.aws.AnyContentReads
 import org.joda.time.format.{DateTimeFormatter, ISODateTimeFormat}
-import org.joda.time.{DateTime, Period}
+import org.joda.time.{DateTime}
 import org.slf4j.{Logger, LoggerFactory}
 import play.api.libs.json.Json
 
@@ -68,7 +68,7 @@ class SentimentTracker {
         Seq(Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot1.jpg?raw=true", None, None), Drawable(None, "https://github.com/Hub-of-all-Things/exchange-assets/blob/master/Sentiments/Screenshot2.jpg?raw=true", None, None))),
       Some("/she/feed/she/sentiments")),
     ApplicationDeveloper("hatdex", "HAT Data Exchange Ltd", "https://hatdex.org", Some("United Kingdom"), None),
-    FunctionTrigger.TriggerPeriodic(Period.parse("P1W")),
+    FunctionTrigger.TriggerIndividual(),
     dataBundle = bundleFilterByDate(None, None),
     status = FunctionStatus(available = true, enabled = false, lastExecution = None, executionStarted = None))
 
