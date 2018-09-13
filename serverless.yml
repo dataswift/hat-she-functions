@@ -8,7 +8,7 @@ provider:
   name: aws
   runtime: java8
   region: eu-west-1
-  stage: sandbox
+  stage: dev
   memorySize: 256
   versionFunctions: false
   timeout: 10
