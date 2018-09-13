@@ -8,7 +8,7 @@ provider:
   name: aws
   runtime: java8
   region: eu-west-1
-  stage: dev
+  stage: sandbox
   memorySize: 256
   versionFunctions: false
   timeout: 10
@@ -39,7 +39,7 @@ functions:
           method: post
 
   api-data-feed-counter-configuration:
-    handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
+    handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
