@@ -109,6 +109,18 @@ class SentimentTracker {
         "she/insights/emotions" → PropertyQuery(List(
           EndpointQuery("she/insights/emotions", Some(Json.toJson(Map("message" → "text", "timestamp" → "timestamp"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f))), None)),
+          Some("timestamp"), Some("descending"), Some(20)),
+        "she/insights/emotions/positive" → PropertyQuery(List(
+          EndpointQuery("she/insights/emotions/positive", Some(Json.toJson(Map("message" → "text", "timestamp" → "timestamp"))),
+            dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f))), None)),
+          Some("timestamp"), Some("descending"), Some(20)),
+        "she/insights/emotions/negative" → PropertyQuery(List(
+          EndpointQuery("she/insights/emotions/negative", Some(Json.toJson(Map("message" → "text", "timestamp" → "timestamp"))),
+            dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f))), None)),
+          Some("timestamp"), Some("descending"), Some(20)),
+        "she/insights/emotions/neutral" → PropertyQuery(List(
+          EndpointQuery("she/insights/emotions/neutral", Some(Json.toJson(Map("message" → "text", "timestamp" → "timestamp"))),
+            dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f))), None)),
           Some("timestamp"), Some("descending"), Some(20))
       ))
   }

@@ -111,11 +111,11 @@ class DataFeedCounter {
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f), EndpointQueryFilter("sentiment", None, FilterOperator.Contains(Json.toJson("Neutral"))))), None)),
           Some("timestamp"), Some("descending"), None),
         "she/insights/emotions/negative" → PropertyQuery(List(
-          EndpointQuery("she/insights/emotions/negative", None,
+          EndpointQuery("she/insights/emotions", None,
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f), EndpointQueryFilter("sentiment", None, FilterOperator.Contains(Json.toJson("Negative"))))), None)),
           Some("timestamp"), Some("descending"), None),
         "she/insights/emotions/positive" → PropertyQuery(List(
-          EndpointQuery("she/insights/emotions/positive", None,
+          EndpointQuery("she/insights/emotions", None,
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f), EndpointQueryFilter("sentiment", None, FilterOperator.Contains(Json.toJson("Positive"))))), None)),
           Some("timestamp"), Some("descending"), None)))
   }
