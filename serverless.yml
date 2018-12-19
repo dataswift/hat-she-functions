@@ -28,7 +28,7 @@ package:
 functions:
 
   api-data-feed-counter:
-    handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
+    handler: org.hatdex.hat.she.functions.DataFeedCounterProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
@@ -49,7 +49,7 @@ functions:
           method: get
 
   api-data-feed-counter-bundle:
-    handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
+    handler: org.hatdex.hat.she.functions.DataFeedCounterBundleProxyHandler::handle
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
