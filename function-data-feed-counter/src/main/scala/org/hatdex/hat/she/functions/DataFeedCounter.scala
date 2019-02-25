@@ -102,6 +102,10 @@ class DataFeedCounter {
           EndpointQuery("monzo/transactions", None,
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created", None, f))), None)),
           Some("created"), Some("descending"), None),
+        "instagram/feed" → PropertyQuery(List(
+          EndpointQuery("instagram/feed", None,
+            dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created_time", None, f))), None)),
+          Some("created_time"), Some("descending"), None),
         "she/insights/emotions" → PropertyQuery(List(
           EndpointQuery("she/insights/emotions", None,
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("timestamp", None, f))), None)),
