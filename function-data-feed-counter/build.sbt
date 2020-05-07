@@ -7,7 +7,7 @@ resolvers += Resolver.sonatypeRepo("public")
 resolvers += "HAT Library Artifacts Releases" at "https://s3-eu-west-1.amazonaws.com/library-artifacts-releases.hubofallthings.com"
 resolvers += "HAT Library Artifacts Snapshots" at "https://s3-eu-west-1.amazonaws.com/library-artifacts-snapshots.hubofallthings.com"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.11"
 assemblyJarName in assembly := "data-feed-counter.jar"
 
 libraryDependencies ++= Seq(

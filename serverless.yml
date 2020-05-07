@@ -1,4 +1,4 @@
-service: smart-hat-engine
+service: dswift-she
 
 plugins:
   - serverless-plugin-select
