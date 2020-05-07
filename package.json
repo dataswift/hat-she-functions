@@ -1,0 +1,15 @@
+{
+  "name": "hat-she-functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Augustinas Markevicius",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-plugin-select": "^2.0.0-rc.1"
+  }
+}

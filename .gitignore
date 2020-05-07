@@ -25,6 +25,7 @@ project/plugins/project/
 # Artifacts
 artifacts/
 temp/
+node_modules/
 
 # Configuration
 env.sh

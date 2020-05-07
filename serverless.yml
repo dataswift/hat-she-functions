@@ -1,25 +1,43 @@
 service: smart-hat-engine
 
+plugins:
+  - serverless-plugin-select
+
 custom:
   awsAccountId:
     Ref: AWS::AccountId
+  region: eu-west-1
+  profile:
+    stage: dswift-stage
+    sandbox: dswift-sandbox
+    live: hatdex
+  securityGroupId:
+    stage: sg-0be87de17684f8c7c
+    sandbox: sg-0286d0c4449dc664a
+  subnetId1:
+    stage: subnet-0748295b1d2fc808f
+    sandbox: subnet-0287d16027e952009
+  subnetId2:
+    stage: subnet-086792048830b8052
+    sandbox: subnet-0da38a13fdb9ac7dc
 
 provider:
   name: aws
   runtime: java8
-  region: eu-west-1
-  stage: dev
+  region: ${self:custom.region}
+  profile: ${self:custom.profile.${self:provider.stage}}
+  stage: ${opt:stage,'sandbox'}
   memorySize: 256
   versionFunctions: false
   timeout: 10
-  logRetentionInDays: 1
+  logRetentionInDays: 30
   endpointType: regional
   vpc:
     securityGroupIds:
-      - sg-237cde5a
+      - ${self:custom.securityGroupId.${self:provider.stage}}
     subnetIds:
-      - subnet-006905369927e2240
-      - subnet-0d535a2f4a04a81ce
+      - ${self:custom.subnetId1.${self:provider.stage}}
+      - ${self:custom.subnetId2.${self:provider.stage}}
 
 package:
   individually: true
