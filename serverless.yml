@@ -3,30 +3,31 @@ service: dswift-she
 plugins:
   - serverless-plugin-select
 
+configValidationMode: off
+
 custom:
   awsAccountId:
     Ref: AWS::AccountId
   region: eu-west-1
   profile:
-    stage: dswift-stage
-    sandbox: dswift-sandbox
-    live: hatdex
-  securityGroupId:
-    stage: sg-0be87de17684f8c7c
-    sandbox: sg-0286d0c4449dc664a
-  subnetId1:
-    stage: subnet-0748295b1d2fc808f
-    sandbox: subnet-0287d16027e952009
-  subnetId2:
-    stage: subnet-086792048830b8052
-    sandbox: subnet-0da38a13fdb9ac7dc
+    staging: dataswift-staging
+    sandbox: dataswift-sandbox
+    production: dataswift-production
+    legacy: dataswift-master
+    direct: dataswift-master
+  stackName:
+    staging: dswift-hat-stage
+    sandbox: dswift-hat-sandbox
+    production: dswift-hat-production
+    legacy: hubofallthings-net
+    direct: hatdirect
 
 provider:
   name: aws
   runtime: java8
-  region: ${self:custom.region}
+  region: ${opt:region,'eu-west-1'}
   profile: ${self:custom.profile.${self:provider.stage}}
-  stage: ${opt:stage,'sandbox'}
+  stage: ${opt:stage,'staging'}
   memorySize: 256
   versionFunctions: false
   timeout: 10
@@ -34,10 +35,10 @@ provider:
   endpointType: regional
   vpc:
     securityGroupIds:
-      - ${self:custom.securityGroupId.${self:provider.stage}}
+      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-she-security-group
     subnetIds:
-      - ${self:custom.subnetId1.${self:provider.stage}}
-      - ${self:custom.subnetId2.${self:provider.stage}}
+      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-restricted-subnet-id-az1
+      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-restricted-subnet-id-az2
 
 package:
   individually: true
@@ -47,6 +48,11 @@ functions:
 
   api-data-feed-counter:
     handler: org.hatdex.hat.she.functions.DataFeedCounterProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
@@ -58,6 +64,11 @@ functions:
 
   api-data-feed-counter-configuration:
     handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
@@ -68,6 +79,11 @@ functions:
 
   api-data-feed-counter-bundle:
     handler: org.hatdex.hat.she.functions.DataFeedCounterBundleProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
@@ -78,6 +94,11 @@ functions:
 
   data-feed-counter:
     handler: org.hatdex.hat.she.functions.DataFeedCounterHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
@@ -85,18 +106,33 @@ functions:
 
   data-feed-counter-configuration:
     handler: org.hatdex.hat.she.functions.DataFeedCounterConfigurationHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
 
   data-feed-counter-bundle:
     handler: org.hatdex.hat.she.functions.DataFeedCounterBundleHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/data-feed-counter.jar
 
   api-sentiment-tracker:
     handler: org.hatdex.hat.she.functions.SentimentTrackerProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -109,6 +145,11 @@ functions:
 
   api-sentiment-tracker-configuration:
     handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -120,6 +161,11 @@ functions:
 
   api-sentiment-tracker-bundle:
     handler: org.hatdex.hat.she.functions.SentimentTrackerBundleProxyHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -131,6 +177,11 @@ functions:
 
   sentiment-tracker:
     handler: org.hatdex.hat.she.functions.SentimentTrackerHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -139,6 +190,11 @@ functions:
 
   sentiment-tracker-configuration:
     handler: org.hatdex.hat.she.functions.SentimentTrackerConfigurationHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
@@ -146,6 +202,11 @@ functions:
 
   sentiment-tracker-bundle:
     handler: org.hatdex.hat.she.functions.SentimentTrackerBundleHandler::handle
+    stages:
+      - staging
+      - sandbox
+      - legacy
+      - direct
     package:
       individually: true
       artifact: artifacts/sentiment-tracker.jar
