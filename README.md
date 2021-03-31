@@ -71,7 +71,35 @@ Refer to the `serverless.yaml` file.
     `configuration` object of the `DataFeedCounter.scala`. See lines 22 and 24.
 
 ## Deployment
-Refer to `build-artifacts.sh` file. This script builds the jar files and makes the deployment using serverless
+
+### Build function artifacts
+
+Refer to `build-artifacts.sh` file. This script builds the jar files and stores them in the artifacts folder.
+
+### Setup AWS credentials to assume role
+
+Internally, users are authenticating with AWS by assuming designated roles in the target accounts. In order for the setup
+to work with Serverless framework all the configuration information has to be contained in the `~/.aws/credendials` file.
+Serverless is not able to pick up profile details from `~/.aws/config` file, documentation of the issue
+[can be found here](https://github.com/serverless/serverless/issues/5048). As a result, _inside the credentials_ file the following
+information has to be included:
+
+```bash
+[dataswift-environment]
+source_profile = dataswift
+role_arn = arn:aws:iam::123456789012:role/Operator
+mfa_serial = arn:aws:iam::123456789012:mfa/name.surname@dataswift.io
+```
+
+### Deploying
+
+Run the deployment command:
+
+```bash
+sls deploy --stage stage --region aws_region
+```
+
+Currently supported stages are: staging, sandbox, production, legacy, direct
 
 ## Posts deployment testing
 Refer to -> https://developers.hubofallthings.com/guides/smart-hat-engine/02-function-testing.html
