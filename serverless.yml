@@ -33,6 +33,9 @@ provider:
   timeout: 10
   logRetentionInDays: 30
   endpointType: regional
+  deploymentBucket:
+    name: dataswift-shared-serverless-artifacts-${self:provider.region}
+    serverSideEncryption: AES256
   vpc:
     securityGroupIds:
       - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-she-security-group
