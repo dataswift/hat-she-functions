@@ -8,40 +8,67 @@ configValidationMode: off
 custom:
   awsAccountId:
     Ref: AWS::AccountId
-  region: eu-west-1
+  region: ${opt:region,'eu-west-1'}
   profile:
+    direct: dataswift-production-pds
     staging: dataswift-staging
-    sandbox: dataswift-sandbox
-    production: dataswift-production
-    legacy: dataswift-master
-    direct: dataswift-master
-  stackName:
-    staging: dswift-hat-stage
-    sandbox: dswift-hat-sandbox
-    production: dswift-hat-production
-    legacy: hubofallthings-net
-    direct: hatdirect
+    sandbox: dataswift-sandbox-pds
+    production: dataswift-production-pds
+  config:
+    direct:
+      eu-west-1:
+        subnetIds:
+          - subnet-099203ca1092e5ace
+          - subnet-0ef2a7f9cc2243eec
+          - subnet-06d1aa275db144694
+        securityGroupIds:
+          - sg-0dde2f1e07bc2a91e  
+    staging:
+      eu-west-1:
+        subnetIds:
+          - subnet-0085814acdd6d41b6
+          - subnet-0b002a667a0831749
+          - subnet-034ba2d965c56f743
+        securityGroupIds:
+          - sg-0e4036ceefbfc8322
+    sandbox:
+      eu-west-1:
+        subnetIds:
+          - subnet-0e32f197565ba9fa6
+          - subnet-01105ce8c74fc1f34
+          - subnet-004a5a0c037b0dc6b
+        securityGroupIds:
+          - sg-0679aed68e2ab31f7
+    production:
+      eu-west-1:
+        subnetIds:
+          - subnet-099203ca1092e5ace
+          - subnet-0ef2a7f9cc2243eec
+          - subnet-06d1aa275db144694
+        securityGroupIds:
+          - sg-0dde2f1e07bc2a91e
+      us-east-1:
+        subnetIds:
+          - subnet-0fd0d875a1db1c546
+          - subnet-0526ec286fb911138
+          - subnet-0f26032dae1a3f8c9
+        securityGroupIds:
+          - sg-0f16e0d1e8a03b6cf
 
 provider:
   name: aws
   runtime: java8
-  region: ${opt:region,'eu-west-1'}
-  profile: ${self:custom.profile.${self:provider.stage}}
   stage: ${opt:stage,'staging'}
+  region: ${self:custom.region}
+  profile: ${self:custom.profile.${self:provider.stage}}
   memorySize: 256
   versionFunctions: false
   timeout: 10
   logRetentionInDays: 30
   endpointType: regional
-  deploymentBucket:
-    name: dataswift-shared-serverless-artifacts-${self:provider.region}
-    serverSideEncryption: AES256
   vpc:
-    securityGroupIds:
-      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-she-security-group
-    subnetIds:
-      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-restricted-subnet-id-az1
-      - Fn::ImportValue: ${self:custom.stackName.${self:provider.stage}}-restricted-subnet-id-az2
+    subnetIds: ${self:custom.config.${self:provider.stage}.${self:custom.region}.subnetIds}
+    securityGroupIds: ${self:custom.config.${self:provider.stage}.${self:custom.region}.securityGroupIds}
 
 package:
   individually: true
@@ -54,7 +81,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -70,7 +97,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -85,7 +112,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -100,7 +127,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -112,7 +139,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -123,7 +150,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -134,7 +161,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -151,7 +178,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -167,7 +194,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -183,7 +210,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -196,7 +223,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
@@ -208,7 +235,7 @@ functions:
     stages:
       - staging
       - sandbox
-      - legacy
+      - production
       - direct
     package:
       individually: true
