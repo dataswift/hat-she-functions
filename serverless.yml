@@ -26,11 +26,11 @@ custom:
     staging:
       eu-west-1:
         subnetIds:
-          - subnet-027db769ede4565ce
-          - subnet-09c8e3c5c259a6309
-          - subnet-03a88a4ac8499a2bd
+          - subnet-0085814acdd6d41b6
+          - subnet-0b002a667a0831749
+          - subnet-034ba2d965c56f743
         securityGroupIds:
-          - sg-08b9af1ef2ed7c2d8
+          - sg-0e4036ceefbfc8322
     sandbox:
       eu-west-1:
         subnetIds:
