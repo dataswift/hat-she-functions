@@ -53,12 +53,8 @@ class DataFeedCounter {
   }
 
   protected def dateOnlyFilter(fromDate: Option[DateTime], untilDate: Option[DateTime]): Option[FilterOperator.Operator] = {
-    if (fromDate.isDefined) {
-      Some(FilterOperator.Between(Json.toJson(fromDate.map(_.toString("yyyy-MM-dd"))), Json.toJson(untilDate.map(_.toString("yyyy-MM-dd")))))
-    }
-    else {
-      None
-    }
+    val fromDateInternal = if (fromDate.isDefined) fromDate else Some(untilDate.getOrElse(DateTime.now()) - 1.month)
+    Some(FilterOperator.Between(Json.toJson(fromDateInternal.map(_.toString("yyyy-MM-dd"))), Json.toJson(untilDate.map(_.toString("yyyy-MM-dd")))))
   }
 
   def bundleFilterByDate(fromDate: Option[DateTime], untilDate: Option[DateTime]): EndpointDataBundle = {
