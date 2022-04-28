@@ -68,6 +68,10 @@ class DataFeedCounter {
           EndpointQuery("facebook/feed", Some(Json.toJson(Map("id" → "id"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created_time", None, f))), None)),
           Some("created_time"), Some("descending"), None),
+        "ozm-facebook/feed" → PropertyQuery(List(
+          EndpointQuery("ozm-facebook/feed", Some(Json.toJson(Map("id" → "id"))),
+            dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("created_time", None, f))), None)),
+          Some("created_time"), Some("descending"), None),
         "twitter/tweets" → PropertyQuery(List(
           EndpointQuery("twitter/tweets", Some(Json.toJson(Map("id" → "id_str"))),
             dateFilter(fromDate, untilDate).map(f ⇒ Seq(EndpointQueryFilter("lastUpdated", None, f))), None)),
